@@ -5,22 +5,31 @@ import Triangle from '../components/triangle'
 import { TextField, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import axios from 'axios'
 
 function Login() {
     const [loginState, setLoginState] = useState(true);
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const HandleRegister = (e) => {
+    const HandleRegister = async (e) => {
         e.preventDefault()
 
         const userData = {
-            username: name,
+            name: username,
             email: email,
             password: password
         }
-        console.log(userData)
+        try {
+            await axios.post('http://localhost:5000/api/v1/users/register', userData)
+            console.log('Success !!!!!')
+            alert('Signup successfull')
+            setLoginState(!loginState)
+
+        } catch (err) {
+            console.log("Error Occured : " + err)
+        }
     }
     return (
         < div className="LoginBox">
@@ -28,7 +37,7 @@ function Login() {
             <Triangle size={'Medium'} />
             <div className='login-main'>
                 <div className='login-section1'>
-                    <div className='heading visible600'>Snap<span className='color_red'>Musix</span></div>
+                    <div className='heading visible600'>Budget<span className='color_red'>Beacon</span></div>
                     <div className='section-row'>
                         <div className='heading'>Track your penny, <span>Budget<span className='color_red'>Beacon</span></span></div>
                         <div className='heading-mini' style={{ zIndex: '500' }}>Scratching off your head, tracking all your expenses every day? We're here to help before you get bald. Sign up, and never end with empty pockets - simplify your financial journey today, and watch your savings grow your way!
@@ -51,7 +60,7 @@ function Login() {
                             <div className="flip-card-back">
                                 <div className='container-face'>
                                     <div className='heading'>Sign Up</div>
-                                    <CssTextField id="outlined-basic" label="Username" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={name} onChange={(e) => { setName(e.target.value) }} />
+                                    <CssTextField id="outlined-basic" label="Username" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={username} onChange={(e) => { setUsername(e.target.value) }} />
                                     <CssTextField id="outlined-basic" label="E-Mail" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={email} onChange={(e) => { setEmail(e.target.value) }} />
                                     <CssTextField id="outlined-basic" type='password' label="Password" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={password} onChange={(e) => { setPassword(e.target.value) }} />
                                     <ColorButton variant="outlined" color='error' onClick={HandleRegister} >Sign Up</ColorButton>
