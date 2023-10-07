@@ -1,0 +1,280 @@
+.HomeBox {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    transition: all 1s;
+}
+.LoginBox{
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0,0,0,255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.login-main{
+    min-height: 520px;
+    height: auto;
+    width: 78%;  
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+}
+.login-section1{
+    z-index: 10;
+    flex: 1;
+    position: relative;
+    width: 100%;
+    color: white;
+    background: rgb(17, 18, 18);
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-section1::after{
+    content: '';
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    z-index: -1;
+    background: linear-gradient(to right,red,rgba(21,23,24,255));
+    filter: blur(120px);
+}
+.login-section2{
+    perspective: 1000px;
+    color: white;
+    z-index: 10;
+    flex: 1;
+    width: 100%;
+    border-radius: 0 20px 20px 0;
+    background: rgb(17, 18, 18);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-section2::after{
+    content: '';
+    height: 20%;
+    position: absolute;
+    top: 0;
+    right: -100px;
+    width: 50%;
+    z-index: -1;
+    background: linear-gradient(to right,red,rgba(21,23,24,255));
+    filter: blur(100px);
+}
+.section-row{
+    height: 70%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.heading{
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+}
+.color_red{
+    color: red;
+}
+.heading-small{
+    z-index: 100;
+    color: white;
+    font-weight: 600;
+}
+.Input{
+    width: 80%;
+    height: 35px;
+    background: white;
+    border-radius: 20px;
+}
+.heading-mini{
+  color: rgb(208, 208, 208);
+}
+.heading-micro{
+    font-size: 10px;
+    color: white;
+}
+.sign{
+    margin-left: 2px;
+    position: relative;
+    cursor: pointer;
+}
+.sign::after{
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: red;
+    bottom: -2px;
+    left: 2px;
+    transition: all 0.3s;
+}
+.sign:hover::after{
+    width: 100%;
+}
+  
+.flip-card {
+    background-color: transparent;
+    width: 80%;
+    height: 80%;
+    perspective: 1000px;
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+  
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    text-align: center;
+    border-radius: 20px;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+  
+.flip-card.active .flip-card-inner {
+    transform: rotateY(180deg);
+}
+  
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+}
+  
+.container-face{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+  
+.flip-card-back {
+    border-radius: 20px;
+    color: white;
+    transform: rotateY(180deg);
+}
+.visible600{
+    display: none;
+}
+  
+@media (max-width:1000px){
+    .login-main{
+      flex-direction: column;
+      height: 80vh;
+      align-items: center;
+      padding-top: 20px;
+    }
+  
+    .login-section1{
+      border-radius: 20px 20px 0 0;
+      max-height: 100px;
+    }
+    .login-section1::after{
+      top: 0;
+      display: none;
+    }
+    .section-row .heading-mini ,.section-row .heading-small{
+      display: none;
+    }
+    .login-section2{
+      max-height: 500px;
+      height: 50%;
+      border-radius: 0 0 20px 20px;
+      padding: 0 0 20px 0;
+    }
+    .login-section2::after{
+      z-index: 100;
+      /* display: none; */
+      top: 300px;
+      right: -100px;
+    }
+    .heading{
+      font-size: 32px;
+      text-align: center;
+    }
+    .flip-card{
+      width: 75%;
+      height: 95%;
+      z-index: 100;
+      perspective: 2000px;
+    }
+  }
+  @media (max-width:850px){
+    .heading{
+      font-size: 28px;
+    }
+  }
+  @media (max-width:780px){
+    .heading{
+      font-size: 25px;
+    }
+  }
+  @media (max-width:600px){
+    .LoginBox{
+      width: 100%;
+    }
+    .login-main{
+      width: 95%;
+    }
+    .section-row{
+      display: none;
+    }
+    .login-section1{
+      max-height: 100px;
+    }
+    .login-section2{
+      padding-top: 0;
+    }
+    .visible600{
+      display: block;
+    }
+    .heading{
+      font-size: 35px;
+    }
+    .flip-card{
+      width: 85%;
+    }
+  }
+  @media (max-width:500px){
+    .flip-card{
+      width: 95%;
+    }
+  }
+  @media (max-height: 600px){
+    .LoginBox{
+      max-height: 100vh;
+    }
+    .login-section1{
+      max-height: 100px;
+    }
+    .login-section2{
+      max-height: 300px;
+    }
+    .login-main{
+      max-height: 90vh;
+    }
+  
+  }

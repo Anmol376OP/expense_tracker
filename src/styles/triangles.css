@@ -1,0 +1,28 @@
+.TriangleBig{
+    height: 90vh;
+    width: 70vw;
+    bottom: 0;
+    left: -200px;
+    z-index: 0;
+    position: absolute;
+    background: linear-gradient(to bottom,rgb(255, 0, 0),black);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.TriangleMedium{
+    height: 50vh;
+    width: 50vw;
+    top: 20px;
+    z-index: 0;
+    right: 0px;
+    position: absolute;
+    /* background: red; */
+    background: linear-gradient(to bottom,rgb(255, 0, 0),black);
+    clip-path: polygon(71% 0, 100% 58%, 99% 100%, 0 100%);
+}
+
+@media (max-width: 1000px){
+    .TriangleBig,.TriangleMedium{
+        display: none;
+    }
+}
