@@ -44,7 +44,7 @@ function Login() {
         }
         try {
             const { data } = await axios.post('http://localhost:5000/api/v1/users/login', userLoginData)
-            localStorage.setItem('user', JSON.stringify({ ...data }))
+            localStorage.setItem('user', JSON.stringify({ ...data.user, password: '' }))
             navigate('/home', { replace: true });
         } catch (err) {
             console.log(err)
