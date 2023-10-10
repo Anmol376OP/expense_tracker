@@ -179,6 +179,9 @@ button{
 .visible600{
     display: none;
 }
+.hover-bg:hover{
+  background: rgba(255,255,255,0.2);
+}
   
 @media (max-width:1000px){
     .login-main{

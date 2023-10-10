@@ -6,12 +6,14 @@ import { TextField, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [loginState, setLoginState] = useState(true);
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const HandleRegister = async (e) => {
         e.preventDefault()
@@ -26,9 +28,26 @@ function Login() {
             console.log('Success !!!!!')
             alert('Signup successfull')
             setLoginState(!loginState)
-
+            setUsername('')
+            setEmail('')
+            setPassword('')
         } catch (err) {
             console.log("Error Occured : " + err)
+        }
+    }
+    const HandleLogin = async (e) => {
+        e.preventDefault()
+
+        const userLoginData = {
+            name: username,
+            password: password
+        }
+        try {
+            const { data } = await axios.post('http://localhost:5000/api/v1/users/login', userLoginData)
+            localStorage.setItem('user', JSON.stringify({ ...data }))
+            navigate('/home', { replace: true });
+        } catch (err) {
+            console.log(err)
         }
     }
     return (
@@ -51,9 +70,9 @@ function Login() {
                             <div className="flip-card-front">
                                 <div className='container-face'>
                                     <div className='heading'>Login</div>
-                                    <CssTextField id="outlined-basic" label="Username" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} />
-                                    <CssTextField id="outlined-basic" type='password' label="Password" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} />
-                                    <ColorButton variant="outlined" color='error' >Login</ColorButton>
+                                    <CssTextField id="outlined-basic" label="Username" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={username} onChange={(e) => { setUsername(e.target.value) }} />
+                                    <CssTextField id="outlined-basic" type='password' label="Password" variant="outlined" sx={{ input: { color: 'white' }, width: '75%' }} value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                                    <ColorButton variant="outlined" color='error' onClick={HandleLogin} >Login</ColorButton>
                                     <div className='heading-micro'>Don't have an account?<span className='sign' onClick={() => setLoginState(!loginState)}> SIGN UP</span></div>
                                 </div>
                             </div>
