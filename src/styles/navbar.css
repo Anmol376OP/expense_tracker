@@ -1,0 +1,24 @@
+.bar{
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    position: absolute;
+    transition: transform 0.6s ease;
+}
+.horizontal{
+    top: 14px;
+    left: 9px;
+}
+.vertical{
+    top: 22px;
+    left: 9px;
+}
+.horizontal.active{
+    top: 19px;
+    transform: rotate(45deg);
+}
+.vertical.active{
+    top: 19px;
+    transform: rotate(-45deg);
+}
+  
