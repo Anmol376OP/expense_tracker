@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
-import SideNav from '../components/sidenav'
+import '../styles/home.css'
+import bgimg from '../assets/moneyplant.jpg'
 
 function Home() {
+    const col = '1f1f27';
+    const [active, setActive] = useState(false)
     return (
-        <div className='w-[100vw] h-[100vh] bg-[#212121] text-white flex'>
-            <div className='w-[240px]'>
-                <SideNav />
+        <div className='relative w-[100vw] h-[100vh] bg-[#141518] text-white flex home-body'>
+            <button className='z-[200] p-2 bg-red-300' onClick={() => setActive(!active)}>Click Me</button>
+            <div className={active ? 'sidebar-right active' : 'sidebar-right'}></div>
+            <div className={active ? 'sidebar-left-upper active' : 'sidebar-left-upper'}>
+                <div className='bg-gray-400 w-[50vw] h-[60vh] z-[100]'>
+                    <img src={bgimg} className='w-full h-full'></img>
+                </div>
             </div>
-            <div className=''>
-
+            <div className={active ? 'sidebar-lower-left active' : 'sidebar-lower-left'}>
+                <div className='text-[70px] font-bold pl-4'>Budget Beacon</div>
             </div>
+            <div className={active ? 'sidebar-lower-right active' : 'sidebar-lower-right'}></div>
         </div>
     )
 }
