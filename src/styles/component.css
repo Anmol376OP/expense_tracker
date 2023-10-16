@@ -1,0 +1,27 @@
+.horizontal-line{
+    width: 90%;
+    height: 1px;
+    background: rgba(0,0,0,0.5);
+}
+.vertical-line, .vertical-line-rp{
+    width: 1px;
+    height: 90%;
+    background: rgba(68, 68, 68, 0.5);
+}
+@media (max-width:800px){
+    .resp800{
+        height: 400px;
+        flex-direction: column;
+    }    
+    .resp800max{
+        height: 600px;
+        flex-direction: column;
+    }
+    .b250{
+        flex: 1;
+    }
+    .vertical-line{
+        width: 90%;
+        height: 1px;
+    }
+}
