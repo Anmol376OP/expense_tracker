@@ -24,4 +24,10 @@
         width: 90%;
         height: 1px;
     }
+    .resp-xl{
+        font-size: 15px;
+    }
+    .resp-2xl{
+        font-size: 20px;
+    }
 }
