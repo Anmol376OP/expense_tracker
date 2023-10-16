@@ -33,10 +33,18 @@ function Home() {
     return (
         <div className='relative w-[100vw] h-[100vh] bg-[#141518] text-white flex flex-col home-body'>
             <Navbar active={active} setActive={setActive} index={activeIndex} title={NavData[activeIndex - 1].title} />
-            <div className={active ? 'sidebar-right active' : 'sidebar-right'}></div>
+            <div className={active ? 'sidebar-right active' : 'sidebar-right'}>
+                {NavData.map((i) => {
+                    return (
+                        <div className={active ? 'font-semibold' : 'hidden'}>
+                            {i.title}
+                        </div>
+                    )
+                })}
+            </div>
             <div className={active ? 'sidebar-left-upper active' : 'sidebar-left-upper'}>
                 <div className='bg-gray-400 w-[50vw] h-[60vh] z-[100]'>
-                    <img src={bgimg} className='w-full h-full'></img>
+                    <img src={bgimg} className='w-full h-full' alt='background'></img>
                 </div>
             </div>
             <div className={active ? 'sidebar-lower-left active' : 'sidebar-lower-left'}>

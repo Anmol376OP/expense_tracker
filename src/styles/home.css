@@ -2,18 +2,25 @@
     z-index: 0;
 }
 .sidebar-right{
+    padding: 70px 0 0 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 50px;
+    justify-content: center;
     position: absolute;
     overflow: hidden;
     width: 50vw;
     height: 0px;
     background-color: #101010;
-    top: 0;
+    top: -70px;
     right: 0;
     transition: 0.6s;
     z-index: 100;
 }
 .sidebar-right.active{
     height: 100vh;
+    top: 0px;
 }
 .sidebar-left-upper{
     position: absolute;
