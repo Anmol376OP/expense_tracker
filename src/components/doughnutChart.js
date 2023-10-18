@@ -4,6 +4,10 @@ const DonutChart = (props) => {
     const canvasRef = useRef(null);
     const [hoveredSection, setHoveredSection] = useState(null);
     const animationDuration = 500; // Duration of the animation in milliseconds
+    let sum = 0.00
+    for (let i = 0; i < props.data.length; i++) {
+        sum += props.data[i]
+    }
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -11,7 +15,7 @@ const DonutChart = (props) => {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const outerRadius = Math.min(centerX, centerY) - 20;
-        const innerRadius = outerRadius - 10; // Adjust this value to control the size of the hole
+        const innerRadius = outerRadius - 15; // Adjust this value to control the size of the hole
 
         // Create linear gradients for each value
         const gradients = [
@@ -105,9 +109,13 @@ const DonutChart = (props) => {
         setHoveredSection(null);
     };
     return (
-        <div className='relative w-fit h-fit'>
-            <canvas ref={canvasRef} width={props.w} height={props.h} />
-            {hoveredSection !== null && <div className=''>{hoveredSection}</div>}
+        <div className='relative w-[200px] h-[200px] flex items-center justify-center'>
+            <div className='absolute'><canvas ref={canvasRef} width={props.w} height={props.h} /></div>
+            {hoveredSection !== null && (
+                <div className=''>
+                    {((props.data[hoveredSection] / sum) * 100).toFixed(2)}%
+                </div>
+            )}
         </div>
     );
 };
