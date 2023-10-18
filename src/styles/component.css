@@ -8,7 +8,29 @@
     height: 90%;
     background: rgba(68, 68, 68, 0.5);
 }
+.legend-item{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.prr{
+    padding-right: 20px;
+}
+.pad-8{
+    padding-left: 32px;
+    padding-right: 32px;
+}
 @media (max-width:800px){
+    .pad-8{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .prr{
+        padding-right: 0;
+    }
+    .legend-item{
+        font-size: 14px;
+    }
     .resp800{
         height: 400px;
         flex-direction: column;

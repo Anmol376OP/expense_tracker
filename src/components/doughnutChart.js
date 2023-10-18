@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const DonutChart = () => {
+const DonutChart = (props) => {
     const canvasRef = useRef(null);
-    const [animationProgress, setAnimationProgress] = useState(0);
-    const animationDuration = 1000; // Duration of the animation in milliseconds
+    const animationDuration = 500; // Duration of the animation in milliseconds
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -12,10 +11,11 @@ const DonutChart = () => {
         const centerY = canvas.height / 2;
         const outerRadius = Math.min(centerX, centerY) - 20;
         const innerRadius = outerRadius - 10; // Adjust this value to control the size of the hole
-        const data = [30, 40, 30];
 
         // Create linear gradients for each value
         const gradients = [
+            ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
+            ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
             ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
             ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
             ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
@@ -29,6 +29,10 @@ const DonutChart = () => {
 
         gradients[2].addColorStop(0, '#1bfa8b');
         gradients[2].addColorStop(1, '#0b331f');
+        for (let itr = 0; itr < props.data.length; itr++) {
+            gradients[itr].addColorStop(0, props.color[(itr * 2)]);
+            gradients[itr].addColorStop(1, props.color[(itr * 2) + 1]);
+        }
 
         const animate = (timestamp) => {
             if (!animationStartTime) {
@@ -42,13 +46,13 @@ const DonutChart = () => {
 
             // Draw the donut chart with the gradient fills
             let total = 0;
-            for (let i = 0; i < data.length; i++) {
-                total += data[i];
+            for (let i = 0; i < props.data.length; i++) {
+                total += props.data[i];
             }
 
             let currentAngle = -Math.PI / 2; // Start at the top of the circle
-            for (let i = 0; i < data.length; i++) {
-                const sliceAngle = (Math.PI * 2 * data[i] * progress) / total;
+            for (let i = 0; i < props.data.length; i++) {
+                const sliceAngle = (Math.PI * 2 * props.data[i] * progress) / total;
 
                 // Set the fill style to the appropriate gradient
                 ctx.fillStyle = gradients[i];
@@ -73,7 +77,11 @@ const DonutChart = () => {
         requestAnimationFrame(animate);
     }, []);
 
-    return <canvas ref={canvasRef} width={150} height={150} />;
+    return (
+        <div>
+            <canvas ref={canvasRef} width={props.w} height={props.h} />
+        </div>
+    );
 };
 
 export default DonutChart;
