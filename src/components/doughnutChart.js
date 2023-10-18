@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const DonutChart = (props) => {
     const canvasRef = useRef(null);
+    const [hoveredSection, setHoveredSection] = useState(null);
     const animationDuration = 500; // Duration of the animation in milliseconds
 
     useEffect(() => {
@@ -20,19 +21,12 @@ const DonutChart = (props) => {
             ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
             ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
         ];
-
-        gradients[0].addColorStop(0, '#fcc612');
-        gradients[0].addColorStop(1, '#a10500');
-
-        gradients[1].addColorStop(0, '#7fc3f0');
-        gradients[1].addColorStop(1, '#320536');
-
-        gradients[2].addColorStop(0, '#1bfa8b');
-        gradients[2].addColorStop(1, '#0b331f');
         for (let itr = 0; itr < props.data.length; itr++) {
             gradients[itr].addColorStop(0, props.color[(itr * 2)]);
             gradients[itr].addColorStop(1, props.color[(itr * 2) + 1]);
         }
+        canvas.addEventListener('mousemove', handleMouseHover);
+        canvas.addEventListener('mouseleave', handleMouseLeave);
 
         const animate = (timestamp) => {
             if (!animationStartTime) {
@@ -75,11 +69,45 @@ const DonutChart = (props) => {
 
         let animationStartTime = null;
         requestAnimationFrame(animate);
-    }, []);
+        return () => {
+            canvas.removeEventListener('mousemove', handleMouseHover);
+            canvas.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, [props.data]);
+    const handleMouseHover = (e) => {
+        const canvas = canvasRef.current;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
+        let angle = Math.atan2(y - centerY, x - centerX) + Math.PI / 2;
+        if (angle < 0) {
+            angle += 2 * Math.PI;
+        }
+
+        const total = props.data.reduce((acc, val) => acc + val, 0);
+        let currentAngle = 0;
+        for (let i = 0; i < props.data.length; i++) {
+            const sliceAngle = (Math.PI * 2 * props.data[i]) / total;
+            if (angle >= currentAngle && angle < currentAngle + sliceAngle) {
+                setHoveredSection(i);
+                return;
+            }
+            currentAngle += sliceAngle;
+        }
+
+        setHoveredSection(null);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredSection(null);
+    };
     return (
-        <div>
+        <div className='relative w-fit h-fit'>
             <canvas ref={canvasRef} width={props.w} height={props.h} />
+            {hoveredSection !== null && <div className=''>{hoveredSection}</div>}
         </div>
     );
 };
