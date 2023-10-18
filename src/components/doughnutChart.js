@@ -1,39 +1,79 @@
-import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import React, { useEffect, useRef, useState } from 'react';
 
-const DoughnutChart = () => {
-    const data = {
-        labels: ["Label 1", "Label 2", "Label 3", "Label 4"],
-        datasets: [
-            {
-                data: [120, 70, 60, 210], // Values for the doughnut chart
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#7F12B3"], // Colors for segments
-            },
-        ],
-    };
+const DonutChart = () => {
+    const canvasRef = useRef(null);
+    const [animationProgress, setAnimationProgress] = useState(0);
+    const animationDuration = 1000; // Duration of the animation in milliseconds
 
-    const options = {
-        cutout: '85%',
-        radius: 50,
-        plugins: {
-            title: {
-                display: false,
-            },
-            legend: {
-                display: false
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const outerRadius = Math.min(centerX, centerY) - 20;
+        const innerRadius = outerRadius - 10; // Adjust this value to control the size of the hole
+        const data = [30, 40, 30];
+
+        // Create linear gradients for each value
+        const gradients = [
+            ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
+            ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
+            ctx.createLinearGradient(0, 0, canvas.width, canvas.height),
+        ];
+
+        gradients[0].addColorStop(0, '#fcc612');
+        gradients[0].addColorStop(1, '#a10500');
+
+        gradients[1].addColorStop(0, '#7fc3f0');
+        gradients[1].addColorStop(1, '#320536');
+
+        gradients[2].addColorStop(0, '#1bfa8b');
+        gradients[2].addColorStop(1, '#0b331f');
+
+        const animate = (timestamp) => {
+            if (!animationStartTime) {
+                animationStartTime = timestamp;
             }
-        },
-        borderColor: 'transparent'
-    };
 
+            const progress = Math.min(1, (timestamp - animationStartTime) / animationDuration);
 
-    return (
-        <div className="w-full h-full flex items-center justify-center">
-            <Doughnut data={data} options={options} />
-        </div>
-    );
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the donut chart with the gradient fills
+            let total = 0;
+            for (let i = 0; i < data.length; i++) {
+                total += data[i];
+            }
+
+            let currentAngle = -Math.PI / 2; // Start at the top of the circle
+            for (let i = 0; i < data.length; i++) {
+                const sliceAngle = (Math.PI * 2 * data[i] * progress) / total;
+
+                // Set the fill style to the appropriate gradient
+                ctx.fillStyle = gradients[i];
+
+                // Create a filled arc
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, outerRadius, currentAngle, currentAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, currentAngle + sliceAngle, currentAngle, true); // Draw the inner arc in reverse
+                ctx.closePath();
+                ctx.fill();
+
+                currentAngle += sliceAngle;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        let animationStartTime = null;
+        requestAnimationFrame(animate);
+    }, []);
+
+    return <canvas ref={canvasRef} width={150} height={150} />;
 };
 
-export default DoughnutChart;
+export default DonutChart;
