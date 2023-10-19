@@ -86,6 +86,7 @@
 }
 @media (max-width:800px){
     .h-adj{
-        height: 200vh;
+        height: fit-content;
+        padding-bottom: 20px;
     }
 }

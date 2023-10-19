@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const DonutChart = (props) => {
     const canvasRef = useRef(null);
-    const [hoveredSection, setHoveredSection] = useState(null);
+    const [hoveredSection, setHoveredSection] = useState(0);
     const animationDuration = 500; // Duration of the animation in milliseconds
     let sum = 0.00
     for (let i = 0; i < props.data.length; i++) {
@@ -30,7 +30,6 @@ const DonutChart = (props) => {
             gradients[itr].addColorStop(1, props.color[(itr * 2) + 1]);
         }
         canvas.addEventListener('mousemove', handleMouseHover);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
 
         const animate = (timestamp) => {
             if (!animationStartTime) {
@@ -75,7 +74,6 @@ const DonutChart = (props) => {
         requestAnimationFrame(animate);
         return () => {
             canvas.removeEventListener('mousemove', handleMouseHover);
-            canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, [props.data]);
     const handleMouseHover = (e) => {
@@ -105,9 +103,6 @@ const DonutChart = (props) => {
         setHoveredSection(null);
     };
 
-    const handleMouseLeave = () => {
-        setHoveredSection(null);
-    };
     return (
         <div className='relative w-[200px] h-[200px] flex items-center justify-center'>
             <div className='absolute'><canvas ref={canvasRef} width={props.w} height={props.h} /></div>

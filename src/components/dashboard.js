@@ -5,9 +5,10 @@ import Doughnut from './doughnutChart'
 function Dashboard() {
     const [data, setData] = useState([30, 40, 30, 60, 10])
     const [bills, setBills] = useState([{ amount: '720.25', title: 'Electricity', due: 'July 11, 2023' }, { amount: '429.83', title: 'Wi-Fi', due: 'July 18, 2023' }, { amount: '3120.25', title: 'Mess Fee', due: 'July 25, 2023' }])
+    const [history, setHistory] = useState([{ type: 0, amount: 200, note: 'Pizza' }, { type: 0, amount: 500, note: 'Electricity Bill' }, { type: 0, amount: 100, note: 'Taxi' }, { type: 1, amount: 5000, note: 'Prize Money' }, { type: 0, amount: 40, note: 'Cold Drink' }, { type: 0, amount: 1200, note: 'Medicine' }, { type: 1, amount: 30000, note: 'Salary' }])
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     return (
-        <div className='w-full h-full flex flex-col py-2 pad-8'>
+        <div className='w-full h-fit flex flex-col py-2 pad-8 gap-6'>
             <div className='w-full relative h-[200px] flex gap-4 resp800max'>
                 <div className='w-full h-[200px] flex bg-[#1f1f27] flex-[6] rounded-[10px] b250 resp800 items-center'>
                     <div className='w-full h-[200px] flex flex-col py-2 px-6 justify-between'>
@@ -51,6 +52,23 @@ function Dashboard() {
                         })}
                         {bills.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>Wohooo!!! No bills upcoming soon </div>}
                     </div>
+                </div>
+            </div>
+            <div className='w-full relative h-btm flex gap-4 flex-change'>
+                <div className='w-full h-[400px] max-h-[400px] relative f2 bg-[#1f1f27] flex flex-col rounded-[10px] py-2 px-6 gap-2 overflow-y-scroll scrollhide'>
+                    <div className='text-gray-500 font-semibold text-xl mb-2'>Recent Activity</div>
+                    {history.length > 0 && history.map((index) => {
+                        return (
+                            <div className='bg-[#272731] rounded-[6px] flex justify-between min-h-[40px] items-center px-4'>
+                                <div className=''>{index.note}</div>
+                                <div className=''>INR {index.amount}</div>
+                            </div>
+                        )
+                    })}
+                    {history.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
+                </div>
+                <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px]'>
+
                 </div>
             </div>
         </div>
