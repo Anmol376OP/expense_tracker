@@ -112,7 +112,7 @@ const DonutChart = (props) => {
         <div className='relative w-[200px] h-[200px] flex items-center justify-center'>
             <div className='absolute'><canvas ref={canvasRef} width={props.w} height={props.h} /></div>
             {hoveredSection !== null && (
-                <div className=''>
+                <div className='' style={{ color: `${props.color[hoveredSection * 2]}` }}>
                     {((props.data[hoveredSection] / sum) * 100).toFixed(2)}%
                 </div>
             )}
