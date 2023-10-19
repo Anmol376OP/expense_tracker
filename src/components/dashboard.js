@@ -4,7 +4,7 @@ import Doughnut from './doughnutChart'
 
 function Dashboard() {
     const [data, setData] = useState([30, 40, 30, 60, 10])
-    const color = ['#ff4d00', '#ffa200', '#44d8fc', '#034859', '#bdbdbd', '#828181', '#ff1205', '#ff1205', '#cd03ff', '#cd03ff']
+    const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     return (
         <div className='w-full h-full flex flex-col py-2 pad-8'>
             <div className='w-full relative h-[200px] flex gap-4 resp800max'>
