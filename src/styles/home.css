@@ -1,6 +1,9 @@
 .home-body{
     z-index: 0;
 }
+.h-adj{
+    height: 100vh;
+}
 .sidebar-right{
     padding: 70px 0 0 50px;
     display: flex;
@@ -79,5 +82,10 @@
     }
     .sidebar-lower-right{
         display: none;
+    }
+}
+@media (max-width:800px){
+    .h-adj{
+        height: 200vh;
     }
 }

@@ -4,6 +4,7 @@ import Doughnut from './doughnutChart'
 
 function Dashboard() {
     const [data, setData] = useState([30, 40, 30, 60, 10])
+    const [bills, setBills] = useState([{ amount: '720.25', title: 'Electricity', due: 'July 11, 2023' }, { amount: '429.83', title: 'Wi-Fi', due: 'July 18, 2023' }, { amount: '3120.25', title: 'Mess Fee', due: 'July 25, 2023' }])
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     return (
         <div className='w-full h-full flex flex-col py-2 pad-8'>
@@ -37,7 +38,20 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className='w-full h-[200px] flex bg-[#1f1f27] flex-[4] rounded-[10px] b250'></div>
+                <div className='w-full h-[200px] flex flex-col bg-[#1f1f27] flex-[3] rounded-[10px] b250 py-2 px-6 gap-3'>
+                    <div className='text-gray-500 font-semibold text-xl'>Upcoming Bills</div>
+                    <div className='flex flex-col gap-2'>
+                        {bills.length > 0 && bills.map((index) => {
+                            return (
+                                <div className='bg-[#272731] rounded-[6px] flex justify-between h-[40px] items-center px-4'>
+                                    <div className='resp-xl'>{index.title},<span className='text-gray-600 pl-2'>{index.due}</span></div>
+                                    <span className='resp-xl'>INR {index.amount}</span>
+                                </div>
+                            )
+                        })}
+                        {bills.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>Wohooo!!! No bills upcoming soon </div>}
+                    </div>
+                </div>
             </div>
         </div>
     )

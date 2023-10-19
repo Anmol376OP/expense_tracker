@@ -30,7 +30,7 @@ function Home() {
         },
     ]
     return (
-        <div className='relative w-[100vw] min-h-[100vh] bg-[#141518] text-white flex flex-col home-body'>
+        <div className='relative w-[100vw] h-adj bg-[#141518] text-white flex flex-col home-body'>
             <Navbar active={active} setActive={setActive} index={activeIndex} title={NavData[activeIndex - 1].title} />
             <div className={active ? 'sidebar-right active' : 'sidebar-right'}>
                 {NavData.map((i) => {
