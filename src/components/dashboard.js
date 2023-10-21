@@ -115,7 +115,7 @@ function Dashboard() {
                     })}
                     {history.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
                 </div>
-                <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px] p-4'>
+                <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px] p-4 overflow-hidden'>
                     <div className='absolute w-fit h-[30px] rounded-[10px] border text-sm py-1 px-2 flex items-center justify-center right-[20px] bottom-[350px] cursor-pointer' onClick={() => setActiveGraph((activeGraph + 1) % 2)}>{graphList[activeGraph]}</div>
                     {activeGraph === 1 && <div className='absolute w-[70px] h-[30px] rounded-[10px] text-sm py-1 px-2 flex items-center justify-center right-[20px] bottom-[310px] cursor-pointer hide800 flex-wrap gap-2'>
                         <div className='w-3 h-2' style={{ background: `${color[0]}` }} onClick={() => setA1(a1 === 1 ? 0 : 1)}></div>
