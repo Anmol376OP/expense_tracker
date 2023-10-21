@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/component.css'
 import Doughnut from './doughnutChart'
+import Arrow from './arrow'
 
 function Dashboard() {
     const [data, setData] = useState([30, 40, 30, 60, 10])
@@ -16,12 +17,14 @@ function Dashboard() {
                         <div className='text-white font-semibold text-3xl'>INR 20,153.78</div>
                         <div className='flex w-full h-[80px] gap-4 mt-6'>
                             <div className='flex w-full h-full flex-col'>
-                                <div className='font-medium text-gray-500 text-xl resp-xl'>Income</div>
+                                <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Income
+                                    <Arrow type={1} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR 30000.00</div>
                             </div>
                             <div className='vertical-line-rp'></div>
                             <div className='flex w-full h-full flex-col'>
-                                <div className='font-medium text-gray-500 text-xl resp-xl'>Expenses</div>
+                                <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Expenses
+                                    <Arrow type={0} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR 9846.22</div>
                             </div>
                         </div>
@@ -60,8 +63,8 @@ function Dashboard() {
                     {history.length > 0 && history.map((index) => {
                         return (
                             <div className='bg-[#272731] rounded-[6px] flex justify-between min-h-[40px] items-center px-4'>
-                                <div className=''>{index.note}</div>
-                                <div className=''>INR {index.amount}</div>
+                                <div className='flex gap-2 items-center'>{index.note}</div>
+                                <div className='flex gap-2 items-center'><Arrow type={index.type} />INR {index.amount} </div>
                             </div>
                         )
                     })}
