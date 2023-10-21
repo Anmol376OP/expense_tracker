@@ -9,6 +9,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
 } from 'chart.js';
 
 ChartJS.register(
@@ -18,45 +19,53 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 const LineChart = (props) => {
-    // Sample data for five variables
+    const n = props.n ? props.n : 1;
+    const dataset = [
+        {
+            label: 'Utility',
+            data: props.data1,
+            borderColor: `${n === 1 ? 'transparent' : '#6f27c2'}`,
+            fill: n === 1 ? { target: 'origin', above: 'rgba(0,250,42,0.2)', below: 'rgba(250,0,0,0.2)' } : false,
+            cubicInterpolationMode: 'monotone'
+        },
+        {
+            label: 'Healthcare',
+            data: props.data2,
+            borderColor: '#38e9fc',
+            fill: false,
+            cubicInterpolationMode: 'monotone'
+        },
+        {
+            label: 'Essentials',
+            data: props.data3,
+            borderColor: '#FFD700',
+            fill: false,
+            cubicInterpolationMode: 'monotone'
+        },
+        {
+            label: 'Entertainment',
+            data: props.data4,
+            borderColor: '#FF4136',
+            fill: false,
+            cubicInterpolationMode: 'monotone'
+        },
+        {
+            label: 'Miscellaneous',
+            data: props.data5,
+            borderColor: '#80fa1b',
+            fill: false,
+            cubicInterpolationMode: 'monotone'
+        }
+    ]
+
     const data = {
         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-        datasets: [
-            {
-                label: 'Utility',
-                data: props.data1,
-                borderColor: '#6f27c2',
-                fill: false,
-            },
-            {
-                label: 'Healthcare',
-                data: props.data2,
-                borderColor: '#38e9fc',
-                fill: false,
-            },
-            {
-                label: 'Essentials',
-                data: props.data3,
-                borderColor: '#FFD700',
-                fill: false,
-            },
-            {
-                label: 'Entertainment',
-                data: props.data4,
-                borderColor: '#FF4136',
-                fill: false,
-            },
-            {
-                label: 'Miscellaneous',
-                data: props.data5,
-                borderColor: '#80fa1b',
-                fill: false,
-            },
-        ],
+        datasets: dataset.slice(0, n),
     };
     const options = {
         maintainAspectRatio: false,
@@ -68,6 +77,9 @@ const LineChart = (props) => {
             title: {
                 display: false,
             },
+            filler: {
+                propagate: true,
+            }
         },
 
         scales: {
