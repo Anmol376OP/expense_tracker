@@ -1,12 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/component.css'
 import Doughnut from './doughnutChart'
 import Arrow from './arrow'
+import LineChart from './lineChart'
 
 function Dashboard() {
-    const [data, setData] = useState([30, 40, 30, 60, 10])
+    const [utilityData, setUtilityData] = useState([100, 40, 0, 0, 500, 125, 0, 1000, 800, 255, 0, 120, 0, 0, 150])
+    const [healthcareData, setHealthcareData] = useState([0, 0, 0, 0, 1200, 1500, 200, 0, 0, 50, 230, 0, 55, 0, 15])
+    const [essentialsData, setEssentialsData] = useState([123, 234, 1536, 0, 0, 100, 645, 2876, 457, 0, 0, 253, 816, 768, 1504])
+    const [entertainmentData, setEntertainmentData] = useState([500, 800, 300, 1200, 600, 250, 1000, 400, 700, 350, 900, 550, 200, 1100, 750])
+    const [miscellaneousData, setMiscellaneousData] = useState([25, 480, 35, 0, 40, 0, 30, 510, 0, 180, 50, 1390, 40, 780, 45])
+
+    const [sumArray, setSumArray] = useState([0, 0, 0, 0, 1]);
+    const [totalExpense, setTotalExpense] = useState(0)
+    useEffect(() => {
+        const newSumArray = [0, 0, 0, 0, 0];
+        [utilityData, healthcareData, essentialsData, entertainmentData, miscellaneousData].forEach((data, index) => {
+            newSumArray[index] = data.reduce((acc, value) => acc + value, 0);
+        });
+
+        setSumArray(newSumArray);
+        const newTotalExpense = newSumArray.reduce((acc, value) => acc + value, 0);
+        setTotalExpense(newTotalExpense.toFixed(2));
+    }, [utilityData, healthcareData, entertainmentData, essentialsData, miscellaneousData])
+
+
     const [bills, setBills] = useState([{ amount: '720.25', title: 'Electricity', due: 'July 11, 2023' }, { amount: '429.83', title: 'Wi-Fi', due: 'July 18, 2023' }, { amount: '3120.25', title: 'Mess Fee', due: 'July 25, 2023' }])
     const [history, setHistory] = useState([{ type: 0, amount: 200, note: 'Pizza' }, { type: 0, amount: 500, note: 'Electricity Bill' }, { type: 0, amount: 100, note: 'Taxi' }, { type: 1, amount: 5000, note: 'Prize Money' }, { type: 0, amount: 40, note: 'Cold Drink' }, { type: 0, amount: 1200, note: 'Medicine' }, { type: 1, amount: 30000, note: 'Salary' }])
+
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     return (
         <div className='w-full h-fit flex flex-col py-2 pad-8 gap-6'>
@@ -25,14 +46,14 @@ function Dashboard() {
                             <div className='flex w-full h-full flex-col'>
                                 <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Expenses
                                     <Arrow type={0} /></div>
-                                <div className='font-semibold text-2xl resp-xl'>INR 9846.22</div>
+                                <div className='font-semibold text-2xl resp-xl'>INR {totalExpense}</div>
                             </div>
                         </div>
                     </div>
 
                     <div className='vertical-line'></div>
                     <div className='w-full h-[200px] flex items-center justify-around prr'>
-                        <Doughnut h={180} w={180} data={data} color={color} />
+                        <Doughnut h={180} w={180} data={sumArray} color={color} />
                         <div className='flex flex-col mr-2'>
                             <div className='legend-item'><div className='w-3 h-2' style={{ background: `${color[0]}` }}></div>Utility</div>
                             <div className='legend-item'><div className='w-3 h-2' style={{ background: `${color[2]}` }}></div>Healthcare</div>
@@ -58,7 +79,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className='w-full relative h-btm flex gap-4 flex-change'>
-                <div className='w-full h-[400px] max-h-[400px] relative f2 bg-[#1f1f27] flex flex-col rounded-[10px] py-2 px-6 gap-2 overflow-y-scroll scrollhide'>
+                <div className='w-full h-[400px] max-h-[400px] relative f2 bg-[#1f1f27] flex flex-col rounded-[10px] py-2 px-6 gap-2 scrollhide'>
                     <div className='text-gray-500 font-semibold text-xl mb-2'>Recent Activity</div>
                     {history.length > 0 && history.map((index) => {
                         return (
@@ -70,8 +91,8 @@ function Dashboard() {
                     })}
                     {history.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
                 </div>
-                <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px]'>
-
+                <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px] p-4'>
+                    <LineChart data1={utilityData} data2={healthcareData} data3={essentialsData} data4={entertainmentData} data5={miscellaneousData} />
                 </div>
             </div>
         </div>
