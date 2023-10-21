@@ -18,6 +18,7 @@ function Dashboard() {
 
     const [sumArray, setSumArray] = useState([0, 0, 0, 0, 1]);
     const [totalExpense, setTotalExpense] = useState(0)
+
     const [activeGraph, setActiveGraph] = useState(0)
 
     useEffect(() => {
@@ -46,8 +47,14 @@ function Dashboard() {
     const [history, setHistory] = useState([{ type: 0, amount: 200, note: 'Pizza' }, { type: 0, amount: 500, note: 'Electricity Bill' }, { type: 0, amount: 100, note: 'Taxi' }, { type: 1, amount: 5000, note: 'Prize Money' }, { type: 0, amount: 40, note: 'Cold Drink' }, { type: 0, amount: 1200, note: 'Medicine' }, { type: 1, amount: 30000, note: 'Salary' }])
 
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
+    const [a1, setA1] = useState(1)
+    const [a2, setA2] = useState(1)
+    const [a3, setA3] = useState(1)
+    const [a4, setA4] = useState(1)
+    const [a5, setA5] = useState(1)
+
     return (
-        <div className='w-full h-fit flex flex-col py-2 pad-8 gap-6'>
+        <div className='w-full h-auto flex flex-col py-2 pad-8 gap-6'>
             <div className='w-full relative h-[200px] flex gap-4 resp800max'>
                 <div className='w-full h-[200px] flex bg-[#1f1f27] flex-[6] rounded-[10px] b250 resp800 items-center'>
                     <div className='w-full h-[200px] flex flex-col py-2 px-6 justify-between'>
@@ -109,9 +116,16 @@ function Dashboard() {
                     {history.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
                 </div>
                 <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px] p-4'>
-                    <div className='absolute w-fit h-[30px] rounded-[10px] border text-sm py-1 px-2 flex items-center justify-center right-[20px] top-[20px] cursor-pointer' onClick={() => setActiveGraph((activeGraph + 1) % 2)}>{graphList[activeGraph]}</div>
+                    <div className='absolute w-fit h-[30px] rounded-[10px] border text-sm py-1 px-2 flex items-center justify-center right-[20px] bottom-[350px] cursor-pointer' onClick={() => setActiveGraph((activeGraph + 1) % 2)}>{graphList[activeGraph]}</div>
+                    {activeGraph === 1 && <div className='absolute w-[70px] h-[30px] rounded-[10px] text-sm py-1 px-2 flex items-center justify-center right-[20px] bottom-[310px] cursor-pointer hide800 flex-wrap gap-2'>
+                        <div className='w-3 h-2' style={{ background: `${color[0]}` }} onClick={() => setA1(a1 === 1 ? 0 : 1)}></div>
+                        <div className='w-3 h-2' style={{ background: `${color[2]}` }} onClick={() => setA2(a2 === 1 ? 0 : 1)}></div>
+                        <div className='w-3 h-2' style={{ background: `${color[4]}` }} onClick={() => setA3(a3 === 1 ? 0 : 1)}></div>
+                        <div className='w-3 h-2' style={{ background: `${color[6]}` }} onClick={() => setA4(a4 === 1 ? 0 : 1)}></div>
+                        <div className='w-3 h-2' style={{ background: `${color[8]}` }} onClick={() => setA5(a5 === 1 ? 0 : 1)}></div>
+                    </div>}
                     {activeGraph === 0 && <LineChart data1={balance} n={1} />}
-                    {activeGraph === 1 && <LineChart data1={utilityData} data2={healthcareData} data3={essentialsData} data4={entertainmentData} data5={miscellaneousData} n={5} />}
+                    {activeGraph === 1 && <LineChart data1={utilityData} data2={healthcareData} data3={essentialsData} data4={entertainmentData} data5={miscellaneousData} n={5} a1={a1} a2={a2} a3={a3} a4={a4} a5={a5} />}
 
                 </div>
             </div>

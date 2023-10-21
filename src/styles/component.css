@@ -73,4 +73,7 @@
     .h-btm{
         height: 800px;
     }
+    .hide800{
+        display: none;
+    }
 }
