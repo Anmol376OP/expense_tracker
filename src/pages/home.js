@@ -18,7 +18,7 @@ function Home() {
         },
         {
             index: 2,
-            title: 'Edit Activity'
+            title: 'Add Activity'
         },
         {
             index: 3,
@@ -35,7 +35,7 @@ function Home() {
             <div className={active ? 'sidebar-right active' : 'sidebar-right'}>
                 {NavData.map((i) => {
                     return (
-                        <div className={active ? 'font-semibold' : 'hidden'}>
+                        <div className={active ? 'font-semibold cursor-pointer' : 'hidden'} onClick={() => { setActiveIndex(i.index); setActive(!active) }}>
                             {i.title}
                         </div>
                     )
