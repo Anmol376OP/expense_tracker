@@ -4,6 +4,7 @@ import { TextField, Button, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import InfoIcon from '@mui/icons-material/Info';
+import axios from 'axios';
 
 function Edit() {
     const [hover, setHover] = useState(false)
@@ -30,7 +31,7 @@ function Edit() {
         }
     }
 
-    const HandleClick = (amt, description, type, category, date) => {
+    const HandleClick = async (amt, description, type, category, date) => {
         if (amt === '' || description === '' || type === '' || category === '' || date === '') {
             setErrorMsg('All feilds must be filled')
             return
@@ -65,6 +66,28 @@ function Edit() {
             return
         }
         setErrorMsg('')
+        const userDataString = localStorage.getItem('user');
+        const userData = JSON.parse(userDataString);
+        const requestData = {
+            userId: userData._id,
+            username: userData.name,
+            amount: parseFloat(amount),
+            description: desc,
+            type: type,
+            category: category,
+            date: date
+        };
+        try {
+            await axios.post('http://localhost:5000/api/v1/transaction/addTransaction', requestData)
+            alert('Transaction added successfully')
+            setAmount('')
+            setCategory('')
+            setDate('')
+            setType('')
+            setDesc('')
+        } catch (err) {
+            console.log("Error Occured : " + err)
+        }
         return
     }
     return (
