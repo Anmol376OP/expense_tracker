@@ -62,7 +62,7 @@
     width: 0;
     height: 40vh;
     background-color: red;
-    bottom: 0;
+    top: 60vh;
     right: 50vw;
     transition: 0.6s;
     z-index: 100;
