@@ -3,6 +3,7 @@ import '../styles/component.css'
 import Doughnut from './doughnutChart'
 import Arrow from './arrow'
 import LineChart from './lineChart'
+import axios from 'axios'
 
 function Dashboard() {
     const [utilityData, setUtilityData] = useState([100, 40, 0, 0, 500, 125, 0, 1000, 800, 255, 0, 120, 0, 0, 150])
@@ -41,10 +42,19 @@ function Dashboard() {
         setCurrBalance(dailyBalances[14].toFixed(2))
     }, [utilityData, healthcareData, entertainmentData, essentialsData, miscellaneousData, income])
 
+    const [history, setHistory] = useState()
+    useEffect(() => {
+        try {
+            const data = JSON.parse(localStorage.getItem('user'))
+            axios.post('http://localhost:5000/api/v1/view/viewHistory', { data }).then(resp => setHistory(resp.data.slice(0, 7)))
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }, [])
+
     const graphList = ['Balance graph', 'Individual Expenses']
     const [bills, setBills] = useState([{ amount: '720.25', title: 'Electricity', due: 'July 11, 2023' }, { amount: '429.83', title: 'Wi-Fi', due: 'July 18, 2023' }, { amount: '3120.25', title: 'Mess Fee', due: 'July 25, 2023' }])
-    const [history, setHistory] = useState([{ category: 'Expenditure', amount: 200, desc: 'Pizza' }, { category: 'Expenditure', amount: 500, desc: 'Electricity Bill' }, { category: 'Expenditure', amount: 100, desc: 'Taxi' }, { category: 'Expenditure', amount: 5000, desc: 'Prize Money' }, { category: 'Expenditure', amount: 40, desc: 'Cold Drink' }, { category: 'Expenditure', amount: 1200, desc: 'Medicine' }, { category: "Income", amount: 30000, desc: 'Salary' }])
-
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     const [a1, setA1] = useState(1)
     const [a2, setA2] = useState(1)
@@ -102,17 +112,17 @@ function Dashboard() {
                 </div>
             </div>
             <div className='w-full relative h-btm flex gap-4 flex-change'>
-                <div className='w-full h-[400px] max-h-[400px] relative f2 bg-[#1f1f27] flex flex-col rounded-[10px] py-2 px-6 gap-2 scrollhide'>
+                <div className='w-full h-[400px] max-h-[400px] relative f2 bg-[#1f1f27] flex flex-col rounded-[10px] py-2 px-6 gap-2 scrollhide overflow-hidden'>
                     <div className='text-gray-500 font-semibold text-xl mb-2'>Recent Activity</div>
-                    {history.length > 0 && history.map((index) => {
+                    {history && history.length > 0 && history.map((index) => {
                         return (
                             <div className='bg-[#272731] rounded-[6px] flex justify-between min-h-[40px] items-center px-4'>
-                                <div className='flex gap-2 items-center'>{index.desc}</div>
+                                <div className='flex gap-2 items-center'>{index.description}</div>
                                 <div className='flex gap-2 items-center'><Arrow type={index.category === 'Income' ? 1 : 0} />INR {index.amount} </div>
                             </div>
                         )
                     })}
-                    {history.length === 0 && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
+                    {!history && <div className='text-gray-500 italic w-full h-[100px] flex items-center justify-center'>No History Available</div>}
                 </div>
                 <div className='w-full h-full f5 bg-[#1f1f27] rounded-[10px] p-4 overflow-hidden'>
                     <div className='absolute w-fit h-[30px] rounded-[10px] border text-sm py-1 px-2 flex items-center justify-center right-[20px] bottom-[350px] cursor-pointer' onClick={() => setActiveGraph((activeGraph + 1) % 2)}>{graphList[activeGraph]}</div>
