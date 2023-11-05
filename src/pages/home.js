@@ -7,8 +7,15 @@ import Dashboard from '../components/dashboard'
 import Edit from '../components/edit'
 import ViewHistory from '../components/viewhistory'
 import ContactUs from '../components/contact_us'
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate()
+    const HandleLogout = () => {
+        localStorage.removeItem('user')
+
+        navigate('/', { replace: true });
+    }
     const [active, setActive] = useState(false)
     const [activeIndex, setActiveIndex] = useState(1)
     const NavData = [
@@ -50,7 +57,7 @@ function Home() {
                 <div className='text-[70px] font-bold pl-8'>Budget Beacon</div>
             </div>
             <div className={active ? 'sidebar-lower-right active' : 'sidebar-lower-right'}>
-                <div className='w-full h-full flex flex-col items-center justify-center cursor-pointer'>
+                <div className='w-full h-full flex flex-col items-center justify-center cursor-pointer' onClick={() => HandleLogout()}>
                     <LogoutIcon fontSize='large' />
                     <p className='font-bold text-[45px]'> Logout</p>
                 </div>

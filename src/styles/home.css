@@ -45,7 +45,7 @@
     overflow: hidden;
     width: 30vw;
     height: 0;
-    bottom: 0vh;
+    top: 60vh;
     left: 0;
     transition: 0.6s;
     z-index: 100;

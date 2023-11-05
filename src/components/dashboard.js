@@ -3,7 +3,6 @@ import '../styles/component.css'
 import Doughnut from './doughnutChart'
 import Arrow from './arrow'
 import LineChart from './lineChart'
-import { act } from 'react-dom/test-utils'
 
 function Dashboard() {
     const [utilityData, setUtilityData] = useState([100, 40, 0, 0, 500, 125, 0, 1000, 800, 255, 0, 120, 0, 0, 150])
@@ -44,7 +43,7 @@ function Dashboard() {
 
     const graphList = ['Balance graph', 'Individual Expenses']
     const [bills, setBills] = useState([{ amount: '720.25', title: 'Electricity', due: 'July 11, 2023' }, { amount: '429.83', title: 'Wi-Fi', due: 'July 18, 2023' }, { amount: '3120.25', title: 'Mess Fee', due: 'July 25, 2023' }])
-    const [history, setHistory] = useState([{ type: 0, amount: 200, note: 'Pizza' }, { type: 0, amount: 500, note: 'Electricity Bill' }, { type: 0, amount: 100, note: 'Taxi' }, { type: 1, amount: 5000, note: 'Prize Money' }, { type: 0, amount: 40, note: 'Cold Drink' }, { type: 0, amount: 1200, note: 'Medicine' }, { type: 1, amount: 30000, note: 'Salary' }])
+    const [history, setHistory] = useState([{ category: 'Expenditure', amount: 200, desc: 'Pizza' }, { category: 'Expenditure', amount: 500, desc: 'Electricity Bill' }, { category: 'Expenditure', amount: 100, desc: 'Taxi' }, { category: 'Expenditure', amount: 5000, desc: 'Prize Money' }, { category: 'Expenditure', amount: 40, desc: 'Cold Drink' }, { category: 'Expenditure', amount: 1200, desc: 'Medicine' }, { category: "Income", amount: 30000, desc: 'Salary' }])
 
     const color = ['#6f27c2', '#6f27c2', '#38e9fc', '#38e9fc', '#FFD700', '#FFD700', '#FF4136', '#FF4136', '#80fa1b', '#80fa1b']
     const [a1, setA1] = useState(1)
@@ -63,13 +62,13 @@ function Dashboard() {
                         <div className='flex w-full h-[80px] gap-4 mt-6'>
                             <div className='flex w-full h-full flex-col'>
                                 <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Income
-                                    <Arrow type={1} /></div>
+                                    <Arrow category={1} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR 40000.00</div>
                             </div>
                             <div className='vertical-line-rp'></div>
                             <div className='flex w-full h-full flex-col'>
                                 <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Expenses
-                                    <Arrow type={0} /></div>
+                                    <Arrow category={0} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR {totalExpense}</div>
                             </div>
                         </div>
@@ -108,8 +107,8 @@ function Dashboard() {
                     {history.length > 0 && history.map((index) => {
                         return (
                             <div className='bg-[#272731] rounded-[6px] flex justify-between min-h-[40px] items-center px-4'>
-                                <div className='flex gap-2 items-center'>{index.note}</div>
-                                <div className='flex gap-2 items-center'><Arrow type={index.type} />INR {index.amount} </div>
+                                <div className='flex gap-2 items-center'>{index.desc}</div>
+                                <div className='flex gap-2 items-center'><Arrow type={index.category === 'Income' ? 1 : 0} />INR {index.amount} </div>
                             </div>
                         )
                     })}
