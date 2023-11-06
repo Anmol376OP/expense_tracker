@@ -102,13 +102,13 @@ function Dashboard() {
                         <div className='flex w-full h-[80px] gap-4 mt-6'>
                             <div className='flex w-full h-full flex-col'>
                                 <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Income
-                                    <Arrow category={1} /></div>
+                                    <Arrow type={1} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR 40000.00</div>
                             </div>
                             <div className='vertical-line-rp'></div>
                             <div className='flex w-full h-full flex-col'>
                                 <div className='font-medium text-gray-500 text-xl resp-xl flex gap-2 items-center'>Expenses
-                                    <Arrow category={0} /></div>
+                                    <Arrow type={0} /></div>
                                 <div className='font-semibold text-2xl resp-xl'>INR {totalExpense}</div>
                             </div>
                         </div>
