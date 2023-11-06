@@ -4,13 +4,14 @@ import Doughnut from './doughnutChart'
 import Arrow from './arrow'
 import LineChart from './lineChart'
 import axios from 'axios'
+import { datetime } from 'filler/libs/helpers'
 
 function Dashboard() {
-    const [utilityData, setUtilityData] = useState([100, 40, 0, 0, 500, 125, 0, 1000, 800, 255, 0, 120, 0, 0, 150])
-    const [healthcareData, setHealthcareData] = useState([0, 0, 0, 0, 1200, 1500, 200, 0, 0, 50, 230, 0, 55, 0, 15])
-    const [essentialsData, setEssentialsData] = useState([123, 234, 1536, 0, 0, 100, 645, 2876, 457, 0, 0, 253, 816, 768, 1504])
-    const [entertainmentData, setEntertainmentData] = useState([500, 800, 300, 1200, 600, 250, 1000, 400, 700, 350, 900, 550, 200, 1100, 750])
-    const [miscellaneousData, setMiscellaneousData] = useState([25, 480, 35, 0, 40, 0, 30, 510, 0, 180, 50, 1390, 40, 780, 45])
+    const [utilityData, setUtilityData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
+    const [healthcareData, setHealthcareData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    const [essentialsData, setEssentialsData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    const [entertainmentData, setEntertainmentData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    const [miscellaneousData, setMiscellaneousData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     const [income, setIncome] = useState([20000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 500, 0, 5000, 7125.25])
     const [prevBalance, setPrevBalance] = useState(0)
     const [currBalance, setCurrBalance] = useState(0)
@@ -21,7 +22,7 @@ function Dashboard() {
 
     const [activeGraph, setActiveGraph] = useState(0)
 
-    useEffect(() => {
+    const setChartData = () => {
         const newSumArray = [0, 0, 0, 0, 0];
         [utilityData, healthcareData, essentialsData, entertainmentData, miscellaneousData].forEach((data, index) => {
             newSumArray[index] = data.reduce((acc, value) => acc + value, 0);
@@ -40,7 +41,7 @@ function Dashboard() {
         }
         setBalance(dailyBalances)
         setCurrBalance(dailyBalances[14].toFixed(2))
-    }, [utilityData, healthcareData, entertainmentData, essentialsData, miscellaneousData, income])
+    }
 
     const [history, setHistory] = useState()
     useEffect(() => {
@@ -49,6 +50,35 @@ function Dashboard() {
             axios.post('http://localhost:5000/api/v1/view/viewHistory', { data }).then(resp => setHistory(resp.data.slice(0, 7)))
         }
         catch (err) {
+            console.log(err)
+        }
+    }, [])
+    const fetchDataForType = async (type, index) => {
+        try {
+            const data = JSON.parse(localStorage.getItem('user'));
+            const queryData = { _id: data._id, type: type };
+            axios.post('http://localhost:5000/api/v1/data/getData', queryData).then(resp => {
+                const sampleUtilityArray = index === 0 ? utilityData : index === 1 ? healthcareData : index === 2 ? essentialsData : index === 3 ? entertainmentData : miscellaneousData
+                const arr = resp.data
+                for (let i = 0; i < 15 && i < arr.length; i++) {
+                    sampleUtilityArray[14 - i] = arr[i].amount
+                }
+                index === 0 ? setUtilityData(sampleUtilityArray) : index === 1 ? setHealthcareData(sampleUtilityArray) : index === 2 ? setEssentialsData(sampleUtilityArray) : index === 3 ? setEntertainmentData(sampleUtilityArray) : setMiscellaneousData(sampleUtilityArray)
+
+                setChartData()
+            })
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    useEffect(() => {
+        try {
+            const typeArr = [{ index: 0, name: 'Utility' }, { index: 1, name: 'Healthcare' }, { index: 2, name: 'Essentials' }, { index: 3, name: 'Entertainment' }, { index: 4, name: 'Miscellaneous' }]
+            typeArr.forEach((itr) => {
+                fetchDataForType(itr.name, itr.index)
+            })
+        } catch (err) {
             console.log(err)
         }
     }, [])
